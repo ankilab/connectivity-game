@@ -4,10 +4,12 @@ import { Simulation } from './simulation.js';
 import { Renderer } from './renderer.js';
 import { UI } from './ui.js';
 import { summarize } from './scoring.js';
+import { Leaderboard } from './leaderboard.js';
 
 const VALID_SEED = /^[A-Za-z0-9 _.-]{1,80}$/;
 const field = document.getElementById('field-canvas');
 const ui = new UI(); const renderer = new Renderer(field, document.getElementById('activity-canvas'));
+const leaderboard = new Leaderboard();
 let game = null; let lastFrame = 0; let accumulator = 0; let pointerDown = false; let generatedSeedNumber = 0;
 function pointFromEvent(event) { const rect = field.getBoundingClientRect(); return { x: (event.clientX - rect.left) / rect.width * CONFIG.fieldWidth, y: (event.clientY - rect.top) / rect.height * CONFIG.fieldHeight }; }
 function validSeed(value) { return VALID_SEED.test(value.trim()); }
@@ -49,7 +51,7 @@ ui.el.restart_button.addEventListener('click',()=>{const seed=ui.el.seed_input.v
 ui.el.new_seed_button.addEventListener('click',()=>{const count=Number(ui.el.count_input.value);if(!isValidCount(count)){ui.announce('Choose a neuron count from 3 to 30.');return;}start(newSeed(),count);});
 ui.el.lock_button.addEventListener('click',()=>{game.state='submission-confirmation';ui.showConfirmation(summarize(game.network,game.guesses));});
 ui.el.cancel_lock_button.addEventListener('click',()=>{game.state=game.selection.pre===null?'playing':'pair-selection';ui.hideConfirmation();});
-ui.el.confirm_lock_button.addEventListener('click',()=>{const summary=summarize(game.network,game.guesses);game.locked=true;game.state='results';game.selection={pre:null,post:null,shiftMode:false};ui.hideConfirmation();refresh();ui.renderResults(summary,game.network);ui.announce(`Results ready. Overall score ${(summary.overall*100).toFixed(1)} percent.`);});
+ui.el.confirm_lock_button.addEventListener('click',()=>{const summary=summarize(game.network,game.guesses);game.locked=true;game.state='results';game.selection={pre:null,post:null,shiftMode:false};ui.hideConfirmation();refresh();ui.renderResults(summary,game.network);ui.announce(`Results ready. Overall score ${(summary.overall*100).toFixed(1)} percent.`);if(summary.correct===summary.total&&game.network.count<=10){leaderboard.recordSuccess(game.network.seed,game.network.count).then((result)=>{if(result.recorded)ui.announce(`Perfect network recorded: ${result.points} Olympic points.`);else if(result.loggedIn)ui.announce('Perfect network already recorded for this seed.');}).catch((error)=>ui.announce(`Perfect result was not saved: ${error.message}`));}});
 document.addEventListener('keydown',(event)=>{if(event.target.matches('input,textarea,select'))return;if(!game||game.locked)return;const key=event.key.toLowerCase();if(key==='e')answer(TYPES.EXC);if(key==='i')answer(TYPES.INH);if(key==='u')answer(TYPES.NONE);if(key==='x')answer(TYPES.UNKNOWN);if(key==='s'&&game.selection.pre!==null&&game.selection.post!==null){const p=game.selection.pre;game.selection.pre=game.selection.post;game.selection.post=p;refresh();}if(key==='h'){ui.el.hypothesis_toggle.checked=!ui.el.hypothesis_toggle.checked;game.showHypothesis=ui.el.hypothesis_toggle.checked;}});
 document.addEventListener('visibilitychange',()=>{lastFrame=0;accumulator=0;if(document.hidden&&game)game.simulation.setStimulation(null,false);});
-start(ui.el.seed_input.value,Number(ui.el.count_input.value));requestAnimationFrame(animate);
+start(ui.el.seed_input.value,Number(ui.el.count_input.value));leaderboard.init();requestAnimationFrame(animate);

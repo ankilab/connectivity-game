@@ -54,6 +54,50 @@ main {
   padding-bottom: 18px;
 }
 
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.header-link {
+  padding: 7px 10px;
+  border: 1px solid #46718f;
+  border-radius: 8px;
+  color: var(--text);
+  font-size: 0.9rem;
+  text-decoration: none;
+  background: #183247;
+}
+
+.header-link:hover {
+  background: #285978;
+}
+
+/* A small account icon keeps the optional login out of the game workspace. */
+.login-icon {
+  display: grid;
+  width: 39px;
+  height: 39px;
+  padding: 7px;
+  place-items: center;
+}
+
+.login-icon svg {
+  width: 100%;
+  height: 100%;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 2;
+}
+
+.login-icon.logged-in {
+  border-color: var(--cyan);
+  color: var(--cyan);
+}
+
 .eyebrow {
   margin: 0;
   color: var(--cyan);
@@ -80,6 +124,32 @@ h2 {
 
 .header-note {
   margin: 0 0 0.25rem;
+}
+
+/* Compact attribution and outbound links below the lab interface. */
+.site-footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 14px;
+  max-width: 1500px;
+  margin: 4px auto 0;
+  padding: 16px 24px 24px;
+  color: var(--muted);
+  font-size: 0.84rem;
+}
+
+.site-footer nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+}
+
+.site-footer a {
+  color: var(--cyan);
+}
+
+.site-footer a:hover {
+  color: #dffaff;
 }
 
 /* Reusable frosted panel used throughout the lab interface. */
@@ -119,6 +189,95 @@ h2 {
 .exc { color: var(--orange); }
 .inh { color: var(--violet); }
 .none { color: var(--muted); }
+
+/* -------------------------------------------------------------------------
+   Optional local account and Olympic leaderboard
+   ------------------------------------------------------------------------- */
+
+.leaderboard-card {
+  padding: 17px;
+}
+
+.account-dialog {
+  position: relative;
+  width: min(560px, 100%);
+}
+
+.account-dialog .eyebrow {
+  margin-bottom: 4px;
+}
+
+.account-dialog > p {
+  margin: 0 0 12px;
+}
+
+.login-form {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 105px auto;
+  align-items: end;
+  gap: 9px;
+}
+
+.login-form[hidden] {
+  display: none;
+}
+
+.login-form button {
+  min-height: 38px;
+}
+
+.account-status {
+  color: var(--cyan);
+}
+
+.dialog-close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  font-size: 1.35rem;
+  line-height: 1;
+  background: transparent;
+}
+
+.leaderboard-page {
+  min-height: 58vh;
+}
+
+.leaderboard-scroll {
+  overflow: auto;
+  border: 1px solid #2c4d62;
+  border-radius: 8px;
+}
+
+.leaderboard-table {
+  min-width: 570px;
+}
+
+.leaderboard-table th,
+.leaderboard-table td {
+  height: auto;
+  padding: 7px 9px;
+  text-align: left;
+}
+
+.leaderboard-table th {
+  position: static;
+}
+
+.leaderboard-table td:first-child {
+  width: 58px;
+  text-align: center;
+}
+
+/* Tiers include text in the table; colour is only a secondary cue. */
+.leaderboard-table .tier-gold td:nth-child(3) { color: #ffe28a; }
+.leaderboard-table .tier-silver td:nth-child(3) { color: #d7edf7; }
+.leaderboard-table .tier-bronze td:nth-child(3) { color: #f6b576; }
 
 /* -------------------------------------------------------------------------
    Main experiment layout and Canvas surfaces
@@ -548,13 +707,23 @@ input:focus-visible,
 
 @media (max-width: 700px) {
   .site-header,
-  main {
+  main,
+  .site-footer {
     padding-right: 12px;
     padding-left: 12px;
   }
 
+  .site-footer {
+    flex-direction: column;
+  }
+
+  .header-actions {
+    align-self: stretch;
+  }
+
   .controls-column,
-  .form-grid {
+  .form-grid,
+  .login-form {
     grid-template-columns: 1fr;
   }
 

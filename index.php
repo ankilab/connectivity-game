@@ -29,8 +29,13 @@ $count = valid_count($_GET['n'] ?? 12);
 <body>
   <a class="skip-link" href="#experiment">Skip to experiment controls</a>
   <header class="site-header">
-    <div><p class="eyebrow">Virtual calcium-imaging lab</p><h1>Neural Circuit Detective</h1></div>
-    <p class="header-note">Stimulate, observe, infer.</p>
+    <h1>Neural Circuit Detective</h1>
+    <div class="header-actions">
+      <a class="header-link" href="leaderboard.php">Leaderboard</a>
+      <button id="login-trigger" class="login-icon" type="button" aria-label="Log in or manage local account" title="Log in">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"></circle><path d="M4 21c.8-4.1 3.4-6.2 8-6.2s7.2 2.1 8 6.2"></path></svg>
+      </button>
+    </div>
   </header>
   <main>
     <section class="intro card" aria-labelledby="intro-title">
@@ -65,7 +70,16 @@ $count = valid_count($_GET['n'] ?? 12);
     <section class="card matrix-card" aria-labelledby="matrix-title"><div class="section-title"><div><h2 id="matrix-title">Directed hypothesis matrix</h2><p class="muted">Rows = presynaptic source; columns = postsynaptic target. Each cell shows your current answer.</p></div><span class="matrix-key">→ excitatory · ⊣ inhibitory · ○ unconnected · ? unknown</span></div><div class="matrix-scroll"><table id="guess-matrix"></table></div></section>
     <section id="results-panel" class="card results" hidden aria-live="polite"></section>
   </main>
+  <footer class="site-footer">
+    <span>© Andreas Kist, 2026</span>
+    <nav aria-label="External links">
+      <a href="https://www.anki.xyz/" target="_blank" rel="noopener noreferrer">anki.xyz</a>
+      <a href="https://github.com/ankilab/connectivity-game" target="_blank" rel="noopener noreferrer">GitHub</a>
+      <a href="https://www.linkedin.com/in/andreas-kist/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+    </nav>
+  </footer>
   <div id="confirm-dialog" class="dialog-backdrop" hidden><section class="dialog" role="dialog" aria-modal="true" aria-labelledby="confirm-title"><h2 id="confirm-title">Lock in your answers?</h2><p id="confirm-copy"></p><p class="warning">Unknown pairs score zero in the overall score.</p><div class="button-row"><button id="confirm-lock-button" type="button" class="primary">Confirm lock-in</button><button id="cancel-lock-button" type="button" class="secondary">Keep editing</button></div></section></div>
+  <div id="account-dialog" class="dialog-backdrop" hidden><section class="dialog account-dialog" role="dialog" aria-modal="true" aria-labelledby="account-title"><button id="close-login-button" class="dialog-close" type="button" aria-label="Close account dialog">×</button><p class="eyebrow">Optional local account</p><h2 id="account-title">Login to the Olympic leaderboard</h2><p class="muted">A perfect N=10 earns 90 points; ten perfect N=3 circuits earn 60.</p><form id="login-form" class="login-form"><label>Nickname<input id="nickname-input" name="nickname" minlength="3" maxlength="16" pattern="[A-Za-z0-9 _-]+" autocomplete="username" required></label><label>4-digit PIN<input id="pin-input" name="pin" inputmode="numeric" pattern="[0-9]{4}" minlength="4" maxlength="4" autocomplete="current-password" required></label><button type="submit">Log in / create account</button></form><div id="account-session" hidden><p id="account-status" class="account-status"></p><button id="logout-button" type="button" class="secondary">Log out</button></div><p id="account-message" class="muted" aria-live="polite">First use of a nickname creates its local account.</p></section></div>
   <p id="status-message" class="sr-only" aria-live="polite"></p>
   <script type="module" src="assets/js/main.js"></script>
 </body>

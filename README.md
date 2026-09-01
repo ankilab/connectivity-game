@@ -8,6 +8,8 @@ A self-contained browser game for students to infer hidden, directed neural conn
 2. Visit `index.php`, for example `https://example.org/neural-game/index.php?seed=class-demo-12&n=12`.
 3. Choose a seed and neuron count (3–30) in the Session controls, then restart the seed.
 
+For the optional leaderboard, PHP must be able to write to the included `data` directory and `data/leaderboard.json`. Most shared hosts do this automatically; if score saving reports an error, set that directory’s permissions to allow the web-server account to write (commonly `775`).
+
 The only server-side code is `index.php`, which validates and safely renders the initial `seed` and `n` URL parameters. All interaction uses standards-based HTML Canvas and browser ES modules, supported by current desktop Chrome, Firefox, Safari, and Edge.
 
 ## Play
@@ -19,6 +21,16 @@ The only server-side code is `index.php`, which validates and safely renders the
 - Rows in the matrix are sources and columns are targets. A connection in one direction says nothing by itself about the reverse direction.
 - Optionally show **My hypothesis**. This draws only your submitted excitatory/inhibitory hypotheses, never the answer.
 - Select **Lock in answers** when ready. Unknown is a valid student state, but scores zero in the overall score. The review exposes the real network and labels correct answers, wrong direction, sign errors, missed connections, and false positives.
+
+## Optional Olympic leaderboard
+
+Open `leaderboard.php` to view rankings. The top-right account icon on either page opens the optional local-login dialog. Enter a 3–16 character nickname and a four-digit PIN to create a local account. On later visits, the same nickname/PIN logs in again. PINs are saved only as PHP password hashes in `data/leaderboard.json`; no external login service or database is used.
+
+Only a **perfect**, fully completed network is recorded. Challenges from N=3 through N=10 are eligible, and a seed can be credited only once per account. Olympic points equal the number of directed pairs, `N × (N−1)`: an N=10 success earns 90 points, while ten N=3 successes earn 60. The public board displays only accounts with at least one recorded success, ranks by points, and gives tiers based on the largest resolved circuit:
+
+- Gold — resolved N=10
+- Silver — resolved N=7–9
+- Bronze — resolved N=3–6
 
 ## Design and simulation
 
@@ -41,6 +53,9 @@ Outside the radius it is zero. The app deliberately does not display these proba
 ## Project map
 
 - `index.php` — accessible page shell and sanitized URL setup.
+- `leaderboard.php` — separate Olympic leaderboard page.
+- `api.php` — local PHP session/account and file-backed leaderboard endpoint.
+- `data/leaderboard.json` — locally stored account hashes and successful challenge records (server writable).
 - `assets/css/styles.css` — responsive scientific interface, focus states, reduced motion.
 - `assets/js/config.js` — all central defaults and shared constants.
 - `assets/js/prng.js` — deterministic seeded random streams.
@@ -70,3 +85,5 @@ Manual QA checklist:
 ## Limitation
 
 This is a client-side educational game. The hidden graph has to be available to the simulation code, so a technically skilled user can inspect browser-delivered JavaScript or runtime memory. It is therefore not cheat-resistant. For graded or high-stakes use, score and keep the graph on a trusted server instead.
+
+The optional leaderboard follows the same educational trust model: the browser reports a perfect client-side result to `api.php`. It is suitable for a classroom-friendly local board, not for high-stakes competition security.

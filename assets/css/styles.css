@@ -1,0 +1,584 @@
+/* -------------------------------------------------------------------------
+   Theme tokens and sensible global defaults
+   ------------------------------------------------------------------------- */
+
+:root {
+  --bg: #08131e;
+  --panel: #102334;
+  --panel2: #142d42;
+  --line: #31516a;
+  --text: #eff8ff;
+  --muted: #aac1d2;
+  --cyan: #51d7ff;
+  --blue: #3e91ff;
+  --orange: #ffba59;
+  --violet: #b69aff;
+  --good: #6de3ad;
+  --bad: #ff8293;
+  --focus: #fff36b;
+
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", sans-serif;
+  color: var(--text);
+  background: linear-gradient(135deg, #07111b, #0b1c2a 52%, #101c33);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  min-width: 320px;
+  margin: 0;
+  line-height: 1.45;
+}
+
+.site-header,
+main {
+  max-width: 1500px;
+  margin: auto;
+  padding-right: 24px;
+  padding-left: 24px;
+}
+
+/* -------------------------------------------------------------------------
+   Header, cards, and shared typography
+   ------------------------------------------------------------------------- */
+
+.site-header {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 20px;
+  padding-top: 24px;
+  padding-bottom: 18px;
+}
+
+.eyebrow {
+  margin: 0;
+  color: var(--cyan);
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+h1 {
+  margin: 0.1rem 0;
+  font-size: clamp(1.75rem, 3vw, 2.5rem);
+}
+
+h2 {
+  margin: 0 0 0.45rem;
+  font-size: 1.05rem;
+}
+
+.header-note,
+.muted {
+  color: var(--muted);
+}
+
+.header-note {
+  margin: 0 0 0.25rem;
+}
+
+/* Reusable frosted panel used throughout the lab interface. */
+.card {
+  border: 1px solid rgba(113, 172, 206, 0.32);
+  border-radius: 14px;
+  background: rgba(16, 35, 52, 0.94);
+  box-shadow: 0 12px 28px #0004;
+}
+
+.intro {
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 18px;
+  padding: 18px 20px;
+}
+
+.intro p {
+  max-width: 780px;
+  margin: 0;
+}
+
+.legend {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 14px;
+  white-space: nowrap;
+}
+
+.symbol {
+  margin-right: 4px;
+  font-size: 1.25rem;
+}
+
+.exc { color: var(--orange); }
+.inh { color: var(--violet); }
+.none { color: var(--muted); }
+
+/* -------------------------------------------------------------------------
+   Main experiment layout and Canvas surfaces
+   ------------------------------------------------------------------------- */
+
+.layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 340px;
+  gap: 18px;
+}
+
+.lab-column,
+.controls-column {
+  display: grid;
+  align-content: start;
+  gap: 18px;
+}
+
+.canvas-card {
+  padding: 12px;
+}
+
+.canvas-toolbar,
+.section-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 0 4px 9px;
+  font-size: 0.9rem;
+}
+
+.canvas-toolbar label {
+  color: var(--muted);
+}
+
+/* This wrapper preserves the 3:2 microscopy field at all viewport sizes. */
+#canvas-wrap {
+  position: relative;
+  aspect-ratio: 3 / 2;
+  overflow: hidden;
+  border: 1px solid #2c526a;
+  border-radius: 10px;
+  background: #030a10;
+}
+
+canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* Avoid browser gestures and selection while operating the stimulation field. */
+#field-canvas {
+  cursor: crosshair;
+  touch-action: none;
+  -webkit-user-select: none; /* Safari 3+, iOS 3+ */
+  user-select: none;
+}
+
+.canvas-help {
+  margin: 9px 3px 1px;
+  color: var(--muted);
+  font-size: 0.82rem;
+}
+
+.plot-card {
+  height: 210px;
+  padding: 14px;
+}
+
+.plot-card #activity-canvas {
+  height: 150px;
+  border-radius: 8px;
+  background: #081720;
+}
+
+/* -------------------------------------------------------------------------
+   Session and pair-classification controls
+   ------------------------------------------------------------------------- */
+
+.controls-column > .card {
+  padding: 17px;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 100px;
+  gap: 10px;
+}
+
+label {
+  display: grid;
+  gap: 4px;
+  color: var(--muted);
+  font-size: 0.84rem;
+}
+
+input {
+  padding: 8px;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  color: var(--text);
+  font: inherit;
+  background: #091823;
+}
+
+.button-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+button {
+  padding: 8px 10px;
+  border: 1px solid #46718f;
+  border-radius: 8px;
+  color: var(--text);
+  font: inherit;
+  cursor: pointer;
+  background: #1c405b;
+  transition: transform 0.15s, background 0.15s;
+}
+
+button:hover:not(:disabled) {
+  background: #285978;
+  transform: translateY(-1px);
+}
+
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
+}
+
+.primary {
+  border-color: #56d0ff;
+  background: #1675a6;
+  font-weight: 700;
+}
+
+.secondary {
+  background: #183247;
+}
+
+.answer-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.answer-grid button {
+  min-height: 52px;
+  text-align: left;
+}
+
+.answer-grid span {
+  margin-right: 4px;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.answer-grid button[data-answer="excitatory"] span {
+  color: var(--orange);
+}
+
+.answer-grid button[data-answer="inhibitory"] span {
+  color: var(--violet);
+}
+
+kbd {
+  margin-left: 3px;
+  padding: 1px 3px;
+  border: 1px solid #57778c;
+  border-radius: 3px;
+  color: #dff7ff;
+  font: 600 0.72rem ui-monospace, SFMono-Regular, Consolas, monospace;
+}
+
+.pair-display {
+  min-height: 48px;
+  margin: 0.3rem 0 12px;
+  padding: 9px;
+  border-left: 3px solid var(--cyan);
+  background: #0a1a27;
+}
+
+.progress-card p {
+  color: var(--muted);
+}
+
+/* -------------------------------------------------------------------------
+   Directed-answer matrix
+   ------------------------------------------------------------------------- */
+
+.matrix-card {
+  margin: 18px 0;
+  padding: 16px;
+}
+
+.matrix-key {
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+
+.matrix-scroll {
+  max-height: 480px;
+  overflow: auto;
+  border: 1px solid #2c4d62;
+  border-radius: 8px;
+}
+
+table {
+  width: max-content;
+  min-width: 100%;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  min-width: 37px;
+  height: 34px;
+  padding: 0;
+  border: 1px solid #29485d;
+  text-align: center;
+}
+
+/* Sticky headers make both directions easy to track in a large matrix. */
+th {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  color: #d9effb;
+  font-size: 0.77rem;
+  background: #173248;
+}
+
+th:first-child {
+  left: 0;
+  z-index: 2;
+}
+
+tbody th {
+  left: 0;
+  z-index: 1;
+}
+
+.matrix-cell {
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  font-weight: 800;
+  background: #0c202e;
+}
+
+.matrix-cell[data-value="excitatory"] { color: var(--orange); }
+.matrix-cell[data-value="inhibitory"] { color: var(--violet); }
+.matrix-cell[data-value="unconnected"] { color: #b8d0dd; }
+
+.matrix-cell.selected {
+  outline: 3px solid var(--cyan);
+  outline-offset: -3px;
+}
+
+.matrix-cell:disabled {
+  background: #172b38;
+}
+
+/* -------------------------------------------------------------------------
+   Lock-in results and review tables
+   ------------------------------------------------------------------------- */
+
+.results {
+  margin: 18px 0;
+  padding: 20px;
+}
+
+.results h2 {
+  font-size: 1.35rem;
+}
+
+.score-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(125px, 1fr));
+  gap: 9px;
+  margin: 15px 0;
+}
+
+.metric {
+  padding: 10px;
+  border: 1px solid #31536a;
+  border-radius: 8px;
+  background: #0b1c29;
+}
+
+.metric b {
+  display: block;
+  color: var(--cyan);
+  font-size: 1.25rem;
+}
+
+.review-table {
+  width: 100%;
+  min-width: 650px;
+}
+
+.review-table td,
+.review-table th {
+  height: auto;
+  padding: 7px;
+  text-align: left;
+}
+
+.review-table th {
+  position: static;
+}
+
+.review-scroll {
+  overflow: auto;
+}
+
+.tag {
+  padding: 3px 7px;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  white-space: nowrap;
+}
+
+.tag.correct {
+  color: #b0ffcf;
+  background: #174b3a;
+}
+
+.tag.wrong {
+  color: #ffd1d9;
+  background: #5b2635;
+}
+
+/* -------------------------------------------------------------------------
+   Modal, screen-reader support, and visible keyboard focus
+   ------------------------------------------------------------------------- */
+
+.dialog-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  display: grid;
+  place-items: center;
+  padding: 18px;
+  background: #0009;
+}
+
+/* The explicit selector wins over the layout rule above when UI sets hidden. */
+.dialog-backdrop[hidden] {
+  display: none;
+}
+
+.dialog {
+  max-width: 480px;
+  padding: 24px;
+  border: 1px solid #5c94b2;
+  border-radius: 14px;
+  background: #153047;
+  box-shadow: 0 20px 70px #000;
+}
+
+.warning {
+  color: #ffe28a;
+}
+
+/* Visually hidden content remains available to screen readers. */
+.skip-link,
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.skip-link:focus {
+  top: 5px;
+  left: 5px;
+  z-index: 30;
+  width: auto;
+  height: auto;
+  padding: 8px;
+  clip: auto;
+  color: #000;
+  background: #fff;
+}
+
+button:focus-visible,
+input:focus-visible,
+#field-canvas:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 3px;
+}
+
+/* -------------------------------------------------------------------------
+   Responsive adjustments and reduced-motion preference
+   ------------------------------------------------------------------------- */
+
+@media (max-width: 980px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+
+  .controls-column {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .site-header {
+    flex-direction: column;
+    align-items: start;
+  }
+
+  .intro {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 700px) {
+  .site-header,
+  main {
+    padding-right: 12px;
+    padding-left: 12px;
+  }
+
+  .controls-column,
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .intro {
+    padding: 15px;
+  }
+
+  .section-title {
+    flex-direction: column;
+    align-items: start;
+  }
+
+  .matrix-key {
+    white-space: normal;
+  }
+}
+
+/* Respect motion sensitivity while retaining the interface's functionality. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}

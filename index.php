@@ -67,7 +67,7 @@ $count = valid_count($_GET['n'] ?? 12);
       </aside>
     </section>
 
-    <section class="card matrix-card" aria-labelledby="matrix-title"><div class="section-title"><div><h2 id="matrix-title">Directed hypothesis matrix</h2><p class="muted">Rows = presynaptic source; columns = postsynaptic target. Each cell shows your current answer.</p></div><span class="matrix-key">→ excitatory · ⊣ inhibitory · ○ unconnected · ? unknown</span></div><div class="matrix-scroll"><table id="guess-matrix"></table></div></section>
+    <section class="card matrix-card" aria-labelledby="matrix-title"><div class="section-title"><div><h2 id="matrix-title">Directed hypothesis matrix</h2><p class="muted">Rows = presynaptic source; columns = postsynaptic target. Each cell shows your current answer.</p></div><div class="matrix-actions"><span class="matrix-key">→ excitatory · ⊣ inhibitory · ○ unconnected · ? unknown</span><button id="mark-unknown-unconnected-button" type="button" class="secondary">Set all unknown to unconnected</button></div></div><div class="matrix-scroll"><table id="guess-matrix"></table></div></section>
     <section id="results-panel" class="card results" hidden aria-live="polite"></section>
   </main>
   <footer class="site-footer">

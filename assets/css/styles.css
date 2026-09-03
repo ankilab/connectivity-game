@@ -483,6 +483,14 @@ kbd {
   font-size: 0.8rem;
 }
 
+.matrix-actions {
+  display: flex;
+  align-items: center;
+  justify-content: end;
+  flex-wrap: wrap;
+  gap: 9px;
+}
+
 .matrix-scroll {
   max-height: 480px;
   overflow: auto;
@@ -738,6 +746,10 @@ input:focus-visible,
 
   .matrix-key {
     white-space: normal;
+  }
+
+  .matrix-actions {
+    justify-content: start;
   }
 }
 

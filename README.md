@@ -19,6 +19,7 @@ The only server-side code is `index.php`, which validates and safely renders the
 - Hold **Shift** and click a neuron to choose the presynaptic source, then Shift-click another neuron for the postsynaptic target. The selected ordered pair is shown as `N3 → N7`.
 - Choose **Excitatory** (`E`), **Inhibitory** (`I`), **Unconnected** (`U`), or **Unknown** (`X`). Swap selected direction with `S`, toggle your overlay with `H`, and clear selection with `Escape` or the button.
 - Rows in the matrix are sources and columns are targets. A connection in one direction says nothing by itself about the reverse direction.
+- Use **Set all unknown to unconnected** in the matrix to rapidly make a complete null-connection hypothesis. Existing excitatory, inhibitory, and unconnected answers are preserved and can still be edited individually before lock-in.
 - Optionally show **My hypothesis**. This draws your submitted excitatory and inhibitory hypotheses, plus a neutral dashed line with an **×** for pairs you marked unconnected. It never reveals the answer.
 - Select **Lock in answers** when ready. Unknown is a valid student state, but scores zero in the overall score. The review exposes the real network and labels correct answers, wrong direction, sign errors, missed connections, and false positives.
 

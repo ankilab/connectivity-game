@@ -40,7 +40,7 @@ $count = valid_count($_GET['n'] ?? 12);
   <main>
     <section class="intro card" aria-labelledby="intro-title">
       <div><h2 id="intro-title">Find the hidden directed circuit</h2><p>Hold <kbd>Ctrl</kbd> while clicking or dragging to shine blue optogenetic light. <kbd>Alt</kbd>+click a neuron to watch its calcium trace, then <kbd>Shift</kbd>+click a source and target to classify that ordered pair.</p></div>
-      <div class="legend" aria-label="Connection legend"><span><b class="symbol exc">→</b> Excitatory</span><span><b class="symbol inh">⊣</b> Inhibitory</span><span><b class="symbol none">○</b> Unconnected</span></div>
+      <div class="legend" aria-label="Connection legend"><span><b class="symbol exc">→</b> Excitatory</span><span><b class="symbol inh">⊣</b> Inhibitory</span><span><b class="symbol none">×</b> Marked unconnected</span></div>
     </section>
 
     <section class="layout" id="experiment" aria-label="Experiment workspace">

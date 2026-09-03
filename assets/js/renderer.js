@@ -20,9 +20,18 @@ export class Renderer {
     const ctx = this.ctx;
     for (const [pre, post] of network.validPairs()) {
       const truth = network.edgeType(pre, post); const guess = guesses.get(`${pre}:${post}`) || TYPES.UNKNOWN; const type = revealed ? truth : guess;
-      if (type === TYPES.NONE || type === TYPES.UNKNOWN) continue;
+      const markedUnconnected = !revealed && type === TYPES.NONE;
+      if (type === TYPES.UNKNOWN || (type === TYPES.NONE && !markedUnconnected)) continue;
       const a = network.neurons[pre], b = network.neurons[post], reversePresent = (revealed ? network.edgeType(post, pre) : guesses.get(`${post}:${pre}`)) in { excitatory: 1, inhibitory: 1 };
-      const color = type === TYPES.EXC ? '#ffba59' : '#b69aff'; ctx.save(); ctx.strokeStyle = color; ctx.globalAlpha = .82; ctx.lineWidth = 2.2; curve(ctx, a, b, reversePresent); ctx.stroke(); drawArrow(ctx, endpointTowards(a, b, 18), type, color); ctx.restore();
+      const color = type === TYPES.EXC ? '#ffba59' : type === TYPES.INH ? '#b69aff' : '#a9c2cf';
+      ctx.save(); ctx.strokeStyle = color; ctx.globalAlpha = .82; ctx.lineWidth = markedUnconnected ? 1.6 : 2.2;
+      if (markedUnconnected) ctx.setLineDash([5, 4]);
+      const marker = curve(ctx, a, b, reversePresent); ctx.stroke(); ctx.setLineDash([]);
+      if (markedUnconnected) {
+        ctx.strokeStyle = '#e8f6fb'; ctx.lineWidth = 2.4;
+        ctx.beginPath(); ctx.moveTo(marker.cx - 5, marker.cy - 5); ctx.lineTo(marker.cx + 5, marker.cy + 5); ctx.moveTo(marker.cx + 5, marker.cy - 5); ctx.lineTo(marker.cx - 5, marker.cy + 5); ctx.stroke();
+      } else drawArrow(ctx, endpointTowards(a, b, 18), type, color);
+      ctx.restore();
     }
   }
   drawLight(simulation) { const point = this.pointer; const ctx = this.ctx; const active = simulation.stimulation && simulation.time < simulation.stimulation.until; ctx.save(); ctx.strokeStyle = active ? '#73ddff' : '#438db7'; ctx.fillStyle = active ? '#2d98ff30' : '#2d98ff18'; ctx.lineWidth = 2; ctx.beginPath(); ctx.arc(point.x, point.y, CONFIG.lightRadius, 0, Math.PI * 2); ctx.fill(); ctx.stroke(); if (active) { ctx.strokeStyle = '#b4f3ff'; ctx.globalAlpha = .65; ctx.beginPath(); ctx.arc(point.x, point.y, CONFIG.lightRadius + 8, 0, Math.PI * 2); ctx.stroke(); } ctx.restore(); }
